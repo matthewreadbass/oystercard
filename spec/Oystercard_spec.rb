@@ -1,9 +1,9 @@
-require 'Oystercard'
+require "oystercard"
 
 describe Oystercard do
-  
-  it "responds to. tap_in" do
-    expect(subject).to respond_to(:tap_in)
+
+  it "has a default value of 0" do
+    expect(subject.balance).to eq 0
   end
 
 end
