@@ -1,6 +1,7 @@
 class Oystercard
   attr_accessor :balance , :in_use
 
+  MINIMUM = 1
   LIMIT = 90
 
   def initialize
@@ -18,6 +19,7 @@ class Oystercard
   end
 
   def touch_in
+    raise "Insufficient funds - please top up" if self.balance < MINIMUM
     @in_use = true
   end
 

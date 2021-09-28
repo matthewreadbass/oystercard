@@ -21,6 +21,7 @@ describe Oystercard do
   end
 
   it "returns true when customer touches in" do
+    card.balance = Oystercard::MINIMUM
     card.touch_in
     expect(card.in_use).to be_truthy
   end
@@ -31,6 +32,7 @@ describe Oystercard do
   end
 
   it "returns true when card.in_journey?" do
+    card.balance = Oystercard::MINIMUM
     card.touch_in
     expect(card.in_journey?).to be_truthy
   end
@@ -38,6 +40,11 @@ describe Oystercard do
   it "returns false when card not .in_journey?" do
     card.touch_out
     expect(card.in_journey?).to be_falsy
+  end
+
+  it "raises an error if the balance is less than £1 when touching in" do
+    card.balance = 0
+    expect { card.touch_in }.to raise_error "Insufficient funds - please top up"
   end
 
 end
