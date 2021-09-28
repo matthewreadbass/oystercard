@@ -20,4 +20,24 @@ describe Oystercard do
     expect { card.deduct(10) }.to change { card.balance }.to 70
   end
 
+  it "returns true when customer touches in" do
+    card.touch_in
+    expect(card.in_use).to be_truthy
+  end
+
+  it "returns false when customer touches out" do
+    card.touch_out
+    expect(card.in_use).to be_falsy
+  end
+
+  it "returns true when card.in_journey?" do
+    card.touch_in
+    expect(card.in_journey?).to be_truthy
+  end
+
+  it "returns false when card not .in_journey?" do
+    card.touch_out
+    expect(card.in_journey?).to be_falsy
+  end
+
 end
