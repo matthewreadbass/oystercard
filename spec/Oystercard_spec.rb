@@ -1,7 +1,8 @@
 require "oystercard"
 
 describe Oystercard do
-  let (:card) { Oystercard.new }
+  let(:card) { Oystercard.new }
+  let(:entry_station) { instance_double Oystercard, entry_station: "Kent House" }
 
   it "has a default value of 0" do
     expect(card.balance).to eq 0
@@ -22,7 +23,7 @@ describe Oystercard do
 
   it "returns true when customer touches in" do
     card.balance = Oystercard::MINIMUM
-    card.touch_in
+    card.touch_in(:entry_station)
     expect(card.in_use).to be_truthy
   end
 
@@ -33,7 +34,7 @@ describe Oystercard do
 
   it "returns true when card.in_journey?" do
     card.balance = Oystercard::MINIMUM
-    card.touch_in
+    card.touch_in(:entry_station)
     expect(card.in_journey?).to be_truthy
   end
 
@@ -44,12 +45,18 @@ describe Oystercard do
 
   it "raises an error if the balance is less than £1 when touching in" do
     card.balance = 0
-    expect { card.touch_in }.to raise_error "Insufficient funds - please top up"
+    expect { card.touch_in(:entry_station) }.to raise_error "Insufficient funds - please top up"
   end
 
   it "deducts money for completed journey" do
     subject.balance = 5
     expect { subject.touch_out }.to change { subject.balance }.by(-1)
+  end
+
+  it "returns touch in station" do
+    card.balance = 10
+    card.touch_in(:entry_station)
+    expect(card.entry_station).to eq :entry_station
   end
 
 end

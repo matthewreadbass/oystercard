@@ -1,5 +1,5 @@
 class Oystercard
-  attr_accessor :balance , :in_use
+  attr_accessor :balance , :in_use , :entry_station
 
   MINIMUM = 1
   LIMIT = 90
@@ -7,6 +7,7 @@ class Oystercard
   def initialize
     @balance = 0
     @in_use = false
+    @entry_station = nil
   end
 
   def top_up(num)
@@ -14,9 +15,10 @@ class Oystercard
     @balance += num
   end
 
-  def touch_in
+  def touch_in(station)
     raise "Insufficient funds - please top up" if self.balance < MINIMUM
     @in_use = true
+    @entry_station = station
   end
 
   def touch_out
@@ -25,7 +27,7 @@ class Oystercard
   end
 
   def in_journey?
-    @in_use
+    @entry_station == nil ? false : true
   end
 
   private
