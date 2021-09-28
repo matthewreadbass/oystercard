@@ -13,10 +13,6 @@ class Oystercard
     raise "Card limit exceeded (£#{LIMIT})" if num + self.balance > LIMIT
     @balance += num
   end
-  
-  def deduct(num)
-    @balance -= num
-  end
 
   def touch_in
     raise "Insufficient funds - please top up" if self.balance < MINIMUM
@@ -25,10 +21,15 @@ class Oystercard
 
   def touch_out
     @in_use = false
+    self.deduct(1)
   end
 
   def in_journey?
     @in_use
   end
-  
+
+  private
+  def deduct(amount)
+    self.balance -= amount  
+  end
 end

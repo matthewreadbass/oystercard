@@ -17,7 +17,7 @@ describe Oystercard do
 
   it "deducts fare" do
     card.top_up(80)
-    expect { card.deduct(10) }.to change { card.balance }.to 70
+    expect { card.send(:deduct, 10) }.to change { card.balance }.to 70
   end
 
   it "returns true when customer touches in" do
@@ -45,6 +45,11 @@ describe Oystercard do
   it "raises an error if the balance is less than £1 when touching in" do
     card.balance = 0
     expect { card.touch_in }.to raise_error "Insufficient funds - please top up"
+  end
+
+  it "deducts money for completed journey" do
+    subject.balance = 5
+    expect { subject.touch_out }.to change { subject.balance }.by(-1)
   end
 
 end
