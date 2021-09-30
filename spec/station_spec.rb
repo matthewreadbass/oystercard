@@ -1,7 +1,6 @@
-require 'station'
+require "station"
 
-describe Station do
-  
+RSpec.describe Station do
   let(:station) { Station.new("Victoria", 1) }
 
   describe "initialize" do
@@ -13,5 +12,4 @@ describe Station do
       expect(station.zone).to eq 1
     end
   end
-
 end
